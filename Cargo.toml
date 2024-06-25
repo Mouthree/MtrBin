@@ -7,4 +7,6 @@ edition = "2021"
 sled = "0.34.7"
 ansi_term = "0.12.1"
 rustyline = "14.0.0"
-clap = { version = "4.5.7", features = ["derive"] }
+shellwords = "1.1.0"
+chrono = "0.4.38"
+tabled = "0.15.0"
