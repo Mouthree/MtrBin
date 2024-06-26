@@ -58,7 +58,7 @@ fn main() -> rustyline::Result<()> {
         let words = shellwords::split(line_in.as_str());
         let words: Vec<&str> = words.as_ref().unwrap().iter().map(|s| s.as_str()).collect();
         match words.as_slice(){
-            //创建box
+            //创建boxK
             //Todo: 实现变量都要加[],在每个函数中进行一个检测
             ["create" | "c", "-box" | "-b", name] => about_create::create_box(name),
             //创建BOM
