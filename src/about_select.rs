@@ -1,3 +1,4 @@
+use std::collections::HashMap;
 use std::fmt::DebugList;
 use std::fs::read;
 use std::process::exit;
@@ -30,16 +31,6 @@ pub fn show_BOM(){
         }
     }
 }
-
-pub fn clear_tree(){
-    let db = sled::open("MtrBin.db").unwrap();
-    let tree_names = db.tree_names();
-    for i in tree_names {
-        let t = String::from_utf8(i.to_vec()).unwrap();
-        db.drop_tree(t);
-    }
-}
-
 
 //show in detail
 #[derive(Tabled)]
@@ -108,24 +99,48 @@ pub fn show_boxd() {
             let mut d: Distribution = Distribution::new("".to_string(), "".to_string(), "".to_string(), "".to_string());
             let tree = db.open_tree(t.clone()).unwrap();
             
-            match tree.get("one").unwrap(){
-                Some(v) => d.one = String::from_utf8(tree.get("one").unwrap().unwrap().to_vec()).unwrap(),
+            match tree.get("1").unwrap(){
+                Some(v) => {
+                    let t = tree.get("1").unwrap().unwrap();
+                    let t = String::from_utf8(t.to_vec()).unwrap();
+                    let t: HashMap<String, String> = serde_json::from_str(&t).unwrap();
+                    let t = t.get("name").unwrap();
+                    d.one = t.clone();
+                },
                 None => d.one = "".trim().to_string()
             }
 
-            match tree.get("two").unwrap(){
-                Some(v) => d.one = String::from_utf8(tree.get("two").unwrap().unwrap().to_vec()).unwrap(),
-                None => d.one = "".trim().to_string()
+            match tree.get("2").unwrap(){
+                Some(v) => {
+                    let t = tree.get("2").unwrap().unwrap();
+                    let t = String::from_utf8(t.to_vec()).unwrap();
+                    let t: HashMap<String, String> = serde_json::from_str(&t).unwrap();
+                    let t = t.get("name").unwrap();
+                    d.two = t.clone();
+                },
+                None => d.two = "".trim().to_string()
             }
 
-            match tree.get("three").unwrap(){
-                Some(v) => d.one = String::from_utf8(tree.get("three").unwrap().unwrap().to_vec()).unwrap(),
-                None => d.one = "".trim().to_string()
+            match tree.get("3").unwrap(){
+                Some(v) => {
+                    let t = tree.get("3").unwrap().unwrap();
+                    let t = String::from_utf8(t.to_vec()).unwrap();
+                    let t: HashMap<String, String> = serde_json::from_str(&t).unwrap();
+                    let t = t.get("name").unwrap();
+                    d.three = t.clone();
+                },
+                None => d.three = "".trim().to_string()
             }
 
-            match tree.get("four").unwrap(){
-                Some(v) => d.one = String::from_utf8(tree.get("four").unwrap().unwrap().to_vec()).unwrap(),
-                None => d.one = "".trim().to_string()
+            match tree.get("4").unwrap(){
+                Some(v) => {
+                    let t = tree.get("4").unwrap().unwrap();
+                    let t = String::from_utf8(t.to_vec()).unwrap();
+                    let t: HashMap<String, String> = serde_json::from_str(&t).unwrap();
+                    let t = t.get("name").unwrap();
+                    d.four = t.clone();
+                },
+                None => d.four = "".trim().to_string()
             }
             data.push(Vendor::new(t[3..].strip_prefix('[').map(|s| s.to_string()).unwrap().strip_suffix(']').map(|s| s.to_string()).unwrap().trim().to_string(), String::from_utf8(tree.get("comment").unwrap().unwrap().to_vec()).unwrap().trim().to_string(), d));
         }
@@ -145,24 +160,48 @@ pub fn show_BOMd() {
             let mut d: Distribution = Distribution::new("".to_string(), "".to_string(), "".to_string(), "".to_string());
             let tree = db.open_tree(t.clone()).unwrap();
             
-            match tree.get("one").unwrap(){
-                Some(v) => d.one = String::from_utf8(tree.get("one").unwrap().unwrap().to_vec()).unwrap(),
+            match tree.get("1").unwrap(){
+                Some(v) => {
+                    let t = tree.get("1").unwrap().unwrap();
+                    let t = String::from_utf8(t.to_vec()).unwrap();
+                    let t: HashMap<String, String> = serde_json::from_str(&t).unwrap();
+                    let t = t.get("name").unwrap();
+                    d.one = t.clone();
+                },
                 None => d.one = "".trim().to_string()
             }
 
-            match tree.get("two").unwrap(){
-                Some(v) => d.one = String::from_utf8(tree.get("two").unwrap().unwrap().to_vec()).unwrap(),
-                None => d.one = "".trim().to_string()
+            match tree.get("2").unwrap(){
+                Some(v) => {
+                    let t = tree.get("2").unwrap().unwrap();
+                    let t = String::from_utf8(t.to_vec()).unwrap();
+                    let t: HashMap<String, String> = serde_json::from_str(&t).unwrap();
+                    let t = t.get("name").unwrap();
+                    d.two = t.clone();
+                },
+                None => d.two = "".trim().to_string()
             }
 
-            match tree.get("three").unwrap(){
-                Some(v) => d.one = String::from_utf8(tree.get("three").unwrap().unwrap().to_vec()).unwrap(),
-                None => d.one = "".trim().to_string()
+            match tree.get("3").unwrap(){
+                Some(v) => {
+                    let t = tree.get("3").unwrap().unwrap();
+                    let t = String::from_utf8(t.to_vec()).unwrap();
+                    let t: HashMap<String, String> = serde_json::from_str(&t).unwrap();
+                    let t = t.get("name").unwrap();
+                    d.three = t.clone();
+                },
+                None => d.three = "".trim().to_string()
             }
 
-            match tree.get("four").unwrap(){
-                Some(v) => d.one = String::from_utf8(tree.get("four").unwrap().unwrap().to_vec()).unwrap(),
-                None => d.one = "".trim().to_string()
+            match tree.get("4").unwrap(){
+                Some(v) => {
+                    let t = tree.get("4").unwrap().unwrap();
+                    let t = String::from_utf8(t.to_vec()).unwrap();
+                    let t: HashMap<String, String> = serde_json::from_str(&t).unwrap();
+                    let t = t.get("name").unwrap();
+                    d.four = t.clone();
+                },
+                None => d.four = "".trim().to_string()
             }
             data.push(Vendor::new(t[3..].strip_prefix('[').map(|s| s.to_string()).unwrap().strip_suffix(']').map(|s| s.to_string()).unwrap().trim().to_string(), String::from_utf8(tree.get("comment").unwrap().unwrap().to_vec()).unwrap().trim().to_string(), d));
         }
@@ -170,3 +209,9 @@ pub fn show_BOMd() {
     let table = Table::new(data).with(Style::modern()).to_string();
     println!("{}", table);
 }   
+
+
+//Todo: 找指定的零件都在哪个盒子里的几号
+pub fn select_part() {
+    
+}

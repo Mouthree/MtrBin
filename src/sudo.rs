@@ -5,7 +5,9 @@ pub fn clear_tree(){
     let tree_names = db.tree_names();
     for i in tree_names {
         let t = String::from_utf8(i.to_vec()).unwrap();
-        db.drop_tree(t);
+        if t != String::from("box[mouthree]") {
+            db.drop_tree(t);
+        }
     }
     println!("All files have been deleted")
 }

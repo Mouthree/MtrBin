@@ -8,6 +8,7 @@ use sled;
 use std::result::Result;
 use rustyline::error::ReadlineError; 
 use rustyline::DefaultEditor;
+use std::process::Command;
 
 mod about_create;
 mod about_add;
@@ -20,6 +21,7 @@ mod sudo;
 
 fn main() -> rustyline::Result<()> {
     let mut rl = DefaultEditor::new()?;
+    let mut cd: &str = "";
     //这个是给命令行文字加粗的
     let bold = Style::new().bold();
     println!("███╗   ███╗████████╗██████╗ ██████╗ ██╗███╗   ██╗
@@ -30,7 +32,7 @@ fn main() -> rustyline::Result<()> {
 ╚═╝     ╚═╝   ╚═╝   ╚═╝  ╚═╝╚═════╝ ╚═╝╚═╝  ╚═══╝");
     loop {
 
-        let readline = rl.readline(">> ");
+        let readline = rl.readline(format!(">{}> ", cd).as_str());
         if let "quit" | "q" | "exit" | "close" | "over" = readline.as_ref().unwrap().as_str(){
             exit(0);
         }
@@ -74,18 +76,36 @@ fn main() -> rustyline::Result<()> {
             //列出详细内容
             ["ls" | "l", "-bomd" | "-md"] => about_select::show_BOMd(),
             //向指定box中添加零件
-            ["add" | "a", "-box" | "-b", name, "-n" | "-num", num, part] => about_add::add_part_in(name, part, num),
+            ["add" | "a", "-box" | "-b", name, "-n" | "-num", num, part] => about_add::add_part_in_box(name, part, num),
             //向指定box中添加零件,同时可以添加标签
             ["add" | "a", "-box" | "-b", name, "-n" | "-num", num, part, "-t" | "-tag", tag @ ..] => about_add::add_part_in_with_comment(name, part, num, tag),
             //查询指定box
+            ["ls" | "l", "-box" | "-b", name] => (),
+            //给指定元件添加标签
+            
             //查询指定BOM
-            //以下仅为测试功能
+            //查询指定元件在哪个盒子里
+            //查询指定标签对应的所有元件
+            //
+            //退出cd模式
+
+            //清屏
+            ["clear"] => {
+                Command::new("cmd").args(&["/c", "cls"]).status().unwrap();
+                println!("███╗   ███╗████████╗██████╗ ██████╗ ██╗███╗   ██╗
+████╗ ████║╚══██╔══╝██╔══██╗██╔══██╗██║████╗  ██║
+██╔████╔██║   ██║   ██████╔╝██████╔╝██║██╔██╗ ██║
+██║╚██╔╝██║   ██║   ██╔══██╗██╔══██╗██║██║╚██╗██║
+██║ ╚═╝ ██║   ██║   ██║  ██║██████╔╝██║██║ ╚████║
+╚═╝     ╚═╝   ╚═╝   ╚═╝  ╚═╝╚═════╝ ╚═╝╚═╝  ╚═══╝");
+            },
+            //以下仅为测试功能,谨慎使用
             //删除所有tree
             ["mouthree", "nb"] => sudo::clear_tree(),
             //查看所有tree
             ["mouthree", "look"] => sudo::show_tree(),
             //当什么都没输入时不作操作
-            [""] => println!(""),
+            [] => (),
             //未定义语句
             _ => println!("no command"),
         }
